@@ -9,7 +9,7 @@ if [[ -z "$VERSION" ]]; then
 fi
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-TAP_NAME="${HOMEBREW_TAP_NAME:-yan-vikng-dev/tap}"
+TAP_NAME="${HOMEBREW_TAP_NAME:-vikng-dev/tap}"
 CASK_TOKEN="${HOMEBREW_CASK_TOKEN:-autoquit}"
 DMG_PATH="$ROOT_DIR/dist/AutoQuit-v${VERSION}.dmg"
 CHECKSUM_PATH="$DMG_PATH.sha256"
