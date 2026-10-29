@@ -233,8 +233,10 @@ final class AutoQuitEngine: @unchecked Sendable {
         var state = ensureRuntimeState(for: app)
 
         let windowCount = accessibilityInspector.windowCount(for: pid)
-        log("App \(appLabel(app)) windowCount=\(windowCount) hasSeenWindow=\(state.hasSeenWindow)")
-        if windowCount > 0 {
+        // A window mid-transition (e.g. leaving fullscreen) briefly drops out of AXWindows but stays the main window.
+        let hasWindow = windowCount > 0 || accessibilityInspector.hasLiveMainWindow(for: pid)
+        log("App \(appLabel(app)) windowCount=\(windowCount) hasWindow=\(hasWindow) hasSeenWindow=\(state.hasSeenWindow)")
+        if hasWindow {
             state.hasSeenWindow = true
             runtimeStateByPID[pid] = state
             cancelGraceRecheck(pid: pid)

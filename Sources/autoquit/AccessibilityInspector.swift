@@ -43,6 +43,15 @@ final class AccessibilityInspector {
         windows(for: pid).count
     }
 
+    func hasLiveMainWindow(for pid: pid_t) -> Bool {
+        let appElement = AXUIElementCreateApplication(pid)
+        guard let mainWindow: AXUIElement = copyAttribute(kAXMainWindowAttribute as CFString, from: appElement) else {
+            return false
+        }
+        let role: String? = copyAttribute(kAXRoleAttribute as CFString, from: mainWindow)
+        return role != nil
+    }
+
     private func copyAttribute<T>(_ attribute: CFString, from element: AXUIElement) -> T? {
         var value: CFTypeRef?
         let error = AXUIElementCopyAttributeValue(element, attribute, &value)
